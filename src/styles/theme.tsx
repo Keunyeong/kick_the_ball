@@ -1,4 +1,4 @@
-const color = {
+const color: Object = {
   white: "white",
   black: "black",
 };

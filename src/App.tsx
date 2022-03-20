@@ -1,9 +1,14 @@
-import LoginForm from "./components/LoginForm";
+import { Routes, Route } from "react-router-dom";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 export default function App() {
   return (
     <div className="App">
-      <LoginForm></LoginForm>
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </div>
   );
 }
