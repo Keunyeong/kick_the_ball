@@ -1,19 +1,24 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
-import LoginForm from "../components/LoginForm";
 import { googleLogin } from "../Firebase/firebase";
-import { useState } from "react";
 
 export default function SignIn() {
-  const [state, setState] = useState("");
+  const navigate = useNavigate();
+
   const login = () => {
-    googleLogin(setState);
+    googleLogin(navigate, true, false);
   };
-  console.log(state);
+  const signup = () => {
+    googleLogin(navigate, false, false);
+  };
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
   return (
     <Page>
       <button onClick={login}>구글 로그인 하기</button>
-      {/* <Link to={"/signup"}>signup</Link> */}
+      <button onClick={signup}>구글 회원가입 하기</button>
     </Page>
   );
 }

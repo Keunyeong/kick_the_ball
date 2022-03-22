@@ -1,7 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import {
+  collection,
+  getFirestore,
+  setDoc,
+  getDocs,
+  doc,
+} from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCTyMbTPKP0JwJdk_QoqY8QGvi1_TG-LfM",
   authDomain: "kicktheballl.firebaseapp.com",
@@ -14,8 +20,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore();
 
-const googleLogin = (setState) => {
+const googleLogin = (navigate, isLogin, isSignup, name) => {
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
@@ -26,7 +33,64 @@ const googleLogin = (setState) => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      setState(user.email);
+
+      const emailRef = collection(db, "users");
+      const signup = async (name) => {
+        await setDoc(doc(emailRef, user.email), {
+          name: { name },
+        });
+        console.log("새롭게 등록되었습니다.");
+      };
+      (async () => {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        // users 에서 구글 인증된 email 정보가 있는지 조회
+        querySnapshot.forEach((doc) => {
+          if (isLogin) {
+            //로그인 요청일 때
+            if (doc.id === user.email) {
+              // email 정보가 이미 가입된 정보일 때
+              // 로그인 완료 -> 메인 페이지로 이동
+              sessionStorage.setItem("token", token);
+              sessionStorage.setItem("email", user.email);
+              navigate("/main");
+              return;
+            }
+          } else {
+            // 회원가입 요청일 때
+            if (doc.id === user.email) {
+              // email 정보가 이미 가입된 정보일 때
+              sessionStorage.setItem("email", user.email);
+
+              navigate("/");
+              alert("이미 가입된 회원입니다.");
+              return;
+            }
+          }
+        });
+        // users 에 email 정보가 없을 때
+        if (sessionStorage.getItem("email") !== user.email) {
+          // 로그인 되지 않은 상태
+          if (isLogin) {
+            // 로그인 요청시
+            navigate("/");
+            alert("회원가입이 필요합니다.");
+          } else {
+            // 회원가입 요청시
+            if (isSignup) {
+              signup(name);
+              sessionStorage.setItem("token", token);
+              sessionStorage.setItem("email", user.email);
+              navigate("/main");
+              alert("회원가입을 축하합니다.");
+            } else {
+              sessionStorage.setItem("signup_email", user.email);
+              navigate("/signup");
+            }
+          }
+        } else {
+          return;
+        }
+      })();
       console.log(token, result);
     })
     .catch((error) => {
