@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
 import { googleLogin } from "../Firebase/firebase";
+import { useStore } from "../store/zustand";
 
 export default function SignIn() {
   const navigate = useNavigate();
-
+  const { setName } = useStore();
   const login = () => {
-    googleLogin(navigate, true, false);
+    googleLogin(navigate, true, false, setName);
   };
   const signup = () => {
     googleLogin(navigate, false, false);

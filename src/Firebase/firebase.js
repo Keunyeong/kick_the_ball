@@ -52,6 +52,7 @@ const googleLogin = (navigate, isLogin, isSignup, name) => {
               // 로그인 완료 -> 메인 페이지로 이동
               sessionStorage.setItem("token", token);
               sessionStorage.setItem("email", user.email);
+              // setName(doc.data().name.name);
               navigate("/main");
               return;
             }
@@ -80,6 +81,7 @@ const googleLogin = (navigate, isLogin, isSignup, name) => {
               signup(name);
               sessionStorage.setItem("token", token);
               sessionStorage.setItem("email", user.email);
+              sessionStorage.removeItem("signup_email");
               navigate("/main");
               alert("회원가입을 축하합니다.");
             } else {
@@ -106,4 +108,13 @@ const googleLogin = (navigate, isLogin, isSignup, name) => {
     });
 };
 
-export { app, googleLogin };
+const getUser = async (email, setData) => {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    if (doc.id === email) {
+      setData(doc.data().name.name);
+    }
+  });
+};
+
+export { app, googleLogin, getUser };

@@ -9,6 +9,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("email");
   useEffect(() => {
+    !sessionStorage.getItem("signup_email") && navigate("/");
     if (sessionStorage.getItem("signup_email")) {
       const email = sessionStorage.getItem("signup_email");
       if (email) {
