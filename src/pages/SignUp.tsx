@@ -16,7 +16,7 @@ export default function SignUp() {
         setEmail(email);
       }
     }
-  }, []);
+  }, [navigate]);
   const submit = (e: any) => {
     e.preventDefault();
     const name: String = e.target.name.value;
@@ -38,7 +38,21 @@ export default function SignUp() {
           value={email}
           disabled={true}
         />
-        <InputBox title="Name" name="name" type="text" disabled={false} />
+        <InputBox
+          title="Name"
+          name="name"
+          type="text"
+          disabled={false}
+          holder="이름"
+        />
+        <InputBox
+          title="Mobile"
+          name="mobile"
+          type="text"
+          disabled={false}
+          holder={`'-'를 제외하고 입력해주세요.`}
+          width="50"
+        />
         <button type="submit">가입하기</button>
       </SignupBox>
     </Page>

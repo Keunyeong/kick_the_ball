@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Page from "../components/Page";
 import { getUser } from "../Firebase/firebase";
@@ -11,7 +11,7 @@ export default function Main() {
   useEffect(() => {
     !sessionStorage.getItem("token") && navigate("/");
     getUser(email, setName);
-  }, []);
+  });
   return (
     <Page>
       {name}님 로그인 되었습니다.
