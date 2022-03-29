@@ -22,7 +22,6 @@ const Input = styled.div`
   }
   input {
     width: ${(props: any) => {
-      console.log(props);
       return `${props.width}px`;
     }};
   }
