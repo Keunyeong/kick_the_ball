@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
-export default function InputBox(props: any) {
-  const { title, name, type, value, disabled, holder, width } = props;
+export default function InputBox({
+  title,
+  name,
+  type,
+  value,
+  disabled,
+  holder,
+}: any) {
   return (
     <Input>
       <label htmlFor={name}>{title}</label>
@@ -17,12 +23,12 @@ export default function InputBox(props: any) {
 }
 
 const Input = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  width: 250px;
   label {
     margin-right: 5px;
-  }
-  input {
-    width: ${(props: any) => {
-      return `${props.width}px`;
-    }};
   }
 `;

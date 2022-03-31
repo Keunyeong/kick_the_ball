@@ -22,7 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
-const googleLogin = (navigate, isLogin, isSignup, name) => {
+const googleLogin = (navigate, isLogin, isSignup, name, mobile) => {
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
@@ -35,11 +35,11 @@ const googleLogin = (navigate, isLogin, isSignup, name) => {
       const user = result.user;
 
       const emailRef = collection(db, "users");
-      const signup = async (name) => {
+      const signup = async (name, mobile) => {
         await setDoc(doc(emailRef, user.email), {
           name: { name },
+          mobile: { mobile },
         });
-        console.log("새롭게 등록되었습니다.");
       };
       (async () => {
         const querySnapshot = await getDocs(collection(db, "users"));
@@ -78,11 +78,9 @@ const googleLogin = (navigate, isLogin, isSignup, name) => {
           } else {
             // 회원가입 요청시
             if (isSignup) {
-              signup(name);
-              sessionStorage.setItem("token", token);
-              sessionStorage.setItem("email", user.email);
+              signup(name, mobile);
               sessionStorage.removeItem("signup_email");
-              navigate("/main");
+              navigate("/");
               alert("회원가입을 축하합니다.");
             } else {
               sessionStorage.setItem("signup_email", user.email);

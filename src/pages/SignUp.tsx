@@ -20,9 +20,11 @@ export default function SignUp() {
   const submit = (e: any) => {
     e.preventDefault();
     const name: String = e.target.name.value;
+    const mobile: String = e.target.mobile.value;
     if (name) {
-      console.log(e.target.name.value);
-      googleLogin(navigate, false, true, name);
+      console.log(name);
+      console.log(mobile);
+      googleLogin(navigate, false, true, name, mobile);
     } else {
       alert("이름을 입력해 주세요!");
     }
