@@ -37,8 +37,11 @@ const googleLogin = (navigate, isLogin, isSignup, name, mobile) => {
       const emailRef = collection(db, "users");
       const signup = async (name, mobile) => {
         await setDoc(doc(emailRef, user.email), {
-          name: { name },
-          mobile: { mobile },
+          name: name,
+          mobile: mobile,
+          level: 1,
+          levelPoint: 0,
+          team: "bench",
         });
       };
       (async () => {
@@ -110,7 +113,7 @@ const getUser = async (email, setData) => {
   const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach((doc) => {
     if (doc.id === email) {
-      setData(doc.data().name.name);
+      setData(doc.data().name);
     }
   });
 };

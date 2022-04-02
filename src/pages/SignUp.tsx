@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Page from "../components/Page";
 import InputBox from "../elements/InputBox";
 import { googleLogin } from "../Firebase/firebase";
 
@@ -31,7 +30,7 @@ export default function SignUp() {
   };
   return (
     <Page>
-      <h1>회원가입하기</h1>
+      <h1>회원가입</h1>
       <SignupBox onSubmit={(e) => submit(e)}>
         <InputBox
           title="Email"
@@ -61,6 +60,18 @@ export default function SignUp() {
   );
 }
 
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+  }
+`;
 const SignupBox = styled.form`
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 `;
