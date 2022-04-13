@@ -54,7 +54,25 @@ export default function SignUp() {
           holder={`'-'를 제외하고 입력해주세요.`}
           width="50"
         />
-        <button type="submit">가입하기</button>
+        <InputBox
+          title="birth"
+          name="birth"
+          type="date"
+          disabled={false}
+          width="80"
+        />
+        <BtnBox>
+          <Btn type="submit">가입하기</Btn>
+          <Btn
+            type="button"
+            onClick={() => {
+              navigate("/");
+              sessionStorage.clear();
+            }}
+          >
+            취소
+          </Btn>
+        </BtnBox>
       </SignupBox>
     </Page>
   );
@@ -74,4 +92,25 @@ const SignupBox = styled.form`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const BtnBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Btn = styled.button`
+  border: none;
+  width: 100px;
+  height: 30px;
+  margin: 5px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  :hover {
+    background-color: white;
+    color: black;
+  }
 `;
